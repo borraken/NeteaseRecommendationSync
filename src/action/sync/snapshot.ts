@@ -1,7 +1,6 @@
 import { NeteaseSong } from 'api/netease'
 import { mkdir, writeFile } from 'fs/promises'
 import { logger } from 'modules/logger'
-import { prisma } from 'prisma'
 
 interface SyncContextSnapshot {
   syncId: string
@@ -60,34 +59,4 @@ ${spotifyTracks
 
   logger.info('persistence: saved sync context snapshot to store')
 
-  const synchronization = await prisma.synchronization.create({
-    data: {
-      id: syncId,
-      createdAt: nowISO,
-      dailyRecommendationDate: nowDateInShanghai,
-      neteaseSongSynchronization: {
-        create: neteaseRecommendations.map((song) => ({
-          neteaseId: song.id,
-          name: song.name,
-          artists: JSON.stringify(song.artists),
-          album: song.album,
-          reason: song.reason,
-          spotifyId: song.spotifyId,
-        })),
-      },
-      spotifySongSynchronization: {
-        create: spotifyTracks.map((track) => ({
-          spotifyId: track.id,
-          name: track.name,
-          artists: JSON.stringify(track.artists.map((artist) => artist.name)),
-          album: track.album.name,
-          neteaseId: track.originalId,
-        })),
-      },
-    },
-  })
-
-  logger.info(
-    `persistence: saved synchronization to database (syncId: ${synchronization.id})`,
-  )
 }
