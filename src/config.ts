@@ -1,10 +1,14 @@
-import * as dotenv from 'dotenv'
 import { DateTime } from 'luxon'
+import fs from 'fs'
+import YAML from 'yaml'
+import {get as getObjectValue} from 'lodash'
 
-dotenv.config()
 
-function getRequiredEnvVar(name: string): string {
-  const value = process.env[name]
+const configFile = fs.readFileSync('./config.yaml', 'utf8')
+const userConfig = YAML.parse(configFile)
+
+function getRequiredEnvVar(name: string ): string | boolean {
+  const value = getObjectValue(userConfig,name)
   if (value === undefined) {
     throw new Error(`Missing required environment variable: ${name}`)
   }
@@ -12,31 +16,32 @@ function getRequiredEnvVar(name: string): string {
 }
 
 // Obtain Spotify Client ID and Secret at https://developer.spotify.com/dashboard/applications
-export const SPOTIFY_CLIENT_ID = getRequiredEnvVar('SPOTIFY_CLIENT_ID')
-export const SPOTIFY_CLIENT_SECRET = getRequiredEnvVar('SPOTIFY_CLIENT_SECRET')
+export const SPOTIFY_CLIENT_ID = getRequiredEnvVar('spotify.CLIENT_ID')
+export const SPOTIFY_CLIENT_SECRET = getRequiredEnvVar('spotify.CLIENT_SECRET')
+
 
 export const SYNC_TIME_TZ = 'Asia/Shanghai'
 
 // SYNC_TIME is the time to sync recommendations, in format of "HH:mm" (24-hour clock)
 // Timezone of SYNC_TIME is defined as Asia/Shanghai and is not configurable due to the nature
 // of interacting with Netease API in which is also in Asia/Shanghai.
-export const SYNC_TIME = process.env.SYNC_TIME || '06:10'
+
+
+export const SYNC_TIME = getObjectValue(userConfig,'sync.syncTime') || '06:10'
 
 export const SYNC_TIME_PARSED = DateTime.fromFormat(SYNC_TIME, 'HH:mm', {
   zone: SYNC_TIME_TZ,
 })
 
 export const OAUTH_REDIRECT_SERVER_PORT = parseInt(
-  process.env.OAUTH_REDIRECT_SERVER_PORT || '3000',
+  getObjectValue(userConfig,'netsase.oauthPort') || '3000',
 )
 
-export const NETEASE_MUSIC_PHONE = getRequiredEnvVar('NETEASE_MUSIC_PHONE')
-export const NETEASE_MUSIC_PASSWORD = getRequiredEnvVar(
-  'NETEASE_MUSIC_PASSWORD',
-)
+export const NETEASE_MUSIC_PHONE = getRequiredEnvVar('netsase.phoneNumber')
+export const NETEASE_MUSIC_PASSWORD = getRequiredEnvVar('netsase.password')
 
-export const SYNC_DAILY = getRequiredEnvVar('SYNC_DAILY') === 'true'
-export const SYNC_RADAR = getRequiredEnvVar('SYNC_RADAR') === 'true'
+export const SYNC_DAILY = getRequiredEnvVar('sync.daily') === true
+export const SYNC_RADAR = getRequiredEnvVar('sync.radar') === true
 
 // not using fromFormat because it is day agnostic
 export const NETEASE_CALENDAR_DAY_BEGINNING_TIME = { hour: 6, minute: 0 }

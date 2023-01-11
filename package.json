@@ -7,11 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "esno src/index.ts",
-    "db:sync": "npx prisma generate && npx prisma db push",
     "lint": "eslint --ext .ts src",
     "lint:fix": "eslint --ext .ts src --fix",
     "importLike": "esno src/importLike.ts",
-    "postinstall": "npm run db:sync",
     "build": "etsc"
   },
   "repository": {
@@ -29,15 +27,16 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "NeteaseCloudMusicApi": "^4.8.2",
-    "dotenv": "^16.0.3",
     "fast-levenshtein": "^3.0.0",
-    "luxon": "^3.1.0",
+    "lodash": "^4.17.21",
+    "luxon": "^3.2.1",
     "node-fetch": "^3.2.10",
     "node-notifier": "^10.0.1",
     "node-schedule": "^2.1.0",
     "p-limit": "^4.0.0",
     "pino": "^8.7.0",
-    "pino-pretty": "^9.1.1"
+    "pino-pretty": "^9.1.1",
+    "yaml": "^2.2.1"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
