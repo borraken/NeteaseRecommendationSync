@@ -11,11 +11,9 @@ sync:
   # 每日同步时间
   syncTime: 06:10
   # 同步网易云每日推荐
-  daily: false
+  daily: true
   # 同步网易云私人雷达
   radar: true
-  # 删除以前同步的歌单(通过歌单名判定歌单,请不要使用相同前缀的歌单名)
-  delPreviousSongList: true
 tool:
   # 与npm importLike功能相同
   importLike: false
