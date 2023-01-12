@@ -39,4 +39,4 @@ async function main() {
 }
 
 logger.info(config)
-// main()
+main()

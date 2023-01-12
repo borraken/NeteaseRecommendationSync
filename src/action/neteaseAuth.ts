@@ -19,8 +19,8 @@ async function neteaseVerifyTokenValidity() {
 async function initiateNeteaseAuth() {
   logger.info('netease: auth: authenticating using phone and password...')
   const response = await loginNeteaseViaPhone(
-    NETEASE_MUSIC_PHONE,
-    NETEASE_MUSIC_PASSWORD,
+    NETEASE_MUSIC_PHONE as string,
+    NETEASE_MUSIC_PASSWORD as string,
   )
   logger.info('netease: auth: successfully logged in using phone and password')
 
