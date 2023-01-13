@@ -58,5 +58,4 @@ ${spotifyTracks
   })
 
   logger.info('persistence: saved sync context snapshot to store')
-
 }

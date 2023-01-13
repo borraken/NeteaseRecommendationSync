@@ -1,12 +1,9 @@
-
 import { likeNeteaseMusic } from 'api/netease'
 import { listSpotifyLikedSongs } from 'api/spotify'
 import { logger } from 'modules/logger'
 import pLimit from 'p-limit'
 
-async function migrateLike(
-  spotifySong: any,
-): Promise<any> {
+async function migrateLike(spotifySong: any): Promise<any> {
   const spotify = await prisma.synchronizationSpotifySong.findFirst({
     where: {
       spotifyId: spotifySong.track.id,
@@ -101,9 +98,7 @@ export async function dispatchMigrateLikes() {
   const migrations = await (Promise.all(
     likes.map((song) => limiter(() => migrateLike(song))),
   ) as Promise<any>)
-  const migrated = migrations.filter(
-    (m) => m !== null,
-  )
+  const migrated = migrations.filter((m) => m !== null)
 
   logger.info(
     {
@@ -112,4 +107,3 @@ export async function dispatchMigrateLikes() {
     `migrate likes: migrated ${migrated.length} songs`,
   )
 }
-
