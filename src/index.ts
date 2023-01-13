@@ -4,7 +4,6 @@ import { schedulerShouldSkip } from 'action/scheduler'
 import { dispatchSpotifyAuth } from 'action/spotifyAuth'
 import { dispatchSyncRecommendations } from 'action/sync/dispatcher'
 import { SYNC_TIME_PARSED, SYNC_TIME_TZ } from 'config'
-import * as config from 'config'
 import { logger } from 'modules/logger'
 import { addSchedule } from 'modules/scheduler'
 
@@ -21,9 +20,9 @@ async function sync() {
   await dispatchSyncRecommendations()
 }
 
-// async function migrate() {
-//   await dispatchMigrateLikes()
-// }
+async function migrate() {
+  await dispatchMigrateLikes()
+}
 
 async function main() {
   await sync()
@@ -38,5 +37,4 @@ async function main() {
   )
 }
 
-logger.info(config)
 main()
