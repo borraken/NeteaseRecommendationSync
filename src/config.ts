@@ -39,6 +39,7 @@ export const NETEASE_MUSIC_PASSWORD = getRequiredEnvVar('netsase.password')
 
 export const SYNC_DAILY = getRequiredEnvVar('sync.daily') === true
 export const SYNC_RADAR = getRequiredEnvVar('sync.radar') === true
+export const SEARCH_BY_NAME = getObjectValue(userConfig, 'sync.onlySongName') === true
 
 // not using fromFormat because it is day agnostic
 export const NETEASE_CALENDAR_DAY_BEGINNING_TIME = { hour: 6, minute: 0 }

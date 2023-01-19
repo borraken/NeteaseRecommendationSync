@@ -10,6 +10,8 @@ netsase:
 sync: 
   # 每日同步时间
   syncTime: 06:10
+  # 仅通过歌曲名匹配
+  onlySongName: false
   # 同步网易云每日推荐
   daily: true
   # 同步网易云私人雷达

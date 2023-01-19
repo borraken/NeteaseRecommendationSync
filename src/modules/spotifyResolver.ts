@@ -1,6 +1,7 @@
 import { NeteaseSong } from 'api/netease'
-import { searchSpotify } from 'api/spotify'
+import { searchSpotify,searchSpotifyOnlyBySongName } from 'api/spotify'
 import { logger } from 'modules/logger'
+import { SEARCH_BY_NAME } from 'config'
 
 export async function resolveSpotifySongsFromNeteaseSongs(
   neteaseRecommendations: NeteaseSong[],
@@ -8,7 +9,8 @@ export async function resolveSpotifySongsFromNeteaseSongs(
   return (
     await Promise.all(
       neteaseRecommendations.map(async (song) => {
-        const track = await searchSpotify(song)
+        const track = await (SEARCH_BY_NAME? searchSpotifyOnlyBySongName(song) : searchSpotify(song))
+
         if (!track) {
           logger.info(
             `spotify: netease song "${song.name}" not found in spotify`,

@@ -122,6 +122,20 @@ export async function searchSpotify(song: NeteaseSong) {
   )
   return track
 }
+export async function searchSpotifyOnlyBySongName(song: NeteaseSong) {
+  logger.debug(
+    { song },
+    `spotify: searching song "${song.name}" with multiple strategies`,
+  )
+  const match = await searchSpotifyName(song)
+  const track = match[0]
+  logger.info(
+    `spotify: song "${song.name}" found in spotify: ${
+      track.name
+    } by ${track.artists.map((a: any) => a.name).join(', ')}`,
+  )
+  return track
+}
 
 export async function createSpotifyPlaylist(name: string, description: string) {
   const account = await spotifyApiRequest('/v1/me')
