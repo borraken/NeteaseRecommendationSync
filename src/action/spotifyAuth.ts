@@ -147,9 +147,9 @@ async function initiateSpotifyOAuth() {
 
     server.listen(OAUTH_REDIRECT_SERVER_PORT, () => {
       // open spotify auth url in browser
-      logger.info(
-        'spotify: auth: Open this URL in your browser to continue with Spotify OAuth:',
-        authUrl,
+      console.log(
+        'spotify: auth: Open this URL in your browser to continue with Spotify OAuth:'+
+        authUrl
       )
     })
   })
